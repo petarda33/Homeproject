@@ -53,7 +53,7 @@ public class Flower extends Creature{
 
     public boolean death() {
         if (this.health == 0) {
-           return isAlive = false;
+            System.out.println("I'm dead! " + getPos());
         }
         return true;
     }

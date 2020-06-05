@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -15,9 +16,9 @@ public class Game {
                 flowers[i][j] = new Flower();
                 flowers[i][j].setX(i);
                 flowers[i][j].setY(j);
+                System.out.println(flowers[i][j].getHealth() + " " + flowers[i][j].getPos());
             }
         }
-
 
 
 
@@ -62,8 +63,31 @@ public class Game {
         insects.add(f6.getPos());
 
 
+
         System.out.println(gardener.getPos());
         System.out.println(insects);
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                flowers[i][j] = new Flower();
+                flowers[i][j].setX(i);
+                flowers[i][j].setY(j);
+                if (flowers[i][j].getPos().equals(f.getPos()) || flowers[i][j].getPos().equals(f1.getPos()) || flowers[i][j].getPos().equals(f2.getPos()) || flowers[i][j].getPos().equals(f3.getPos()) || flowers[i][j].getPos().equals(f4.getPos()) || flowers[i][j].getPos().equals(f5.getPos()) || flowers[i][j].getPos().equals(f6.getPos()))   {
+                    f.eatFlower(flowers[i][j], gardener);
+                    f1.eatFlower(flowers[i][j], gardener);
+                    f2.eatFlower(flowers[i][j], gardener);
+                    f3.eatFlower(flowers[i][j], gardener);
+                    f4.eatFlower(flowers[i][j], gardener);
+                    f5.eatFlower(flowers[i][j], gardener);
+                    f6.eatFlower(flowers[i][j], gardener);
+                }
+                System.out.println("Ezen a koordinátán (" + flowers[i][j].getPos() + ") lévő növény élete :" + flowers[i][j].getHealth());
+            }
+        }
+
+
+
+
 
         insects.remove(f.getPos());
         insects.remove(f1.getPos());
@@ -99,32 +123,26 @@ public class Game {
         insects.add(f5.getPos());
         insects.add(f6.getPos());
 
-        System.out.println(insects);
-
-        if(f.getPos().equals(gardener.getPos())) {
-            insects.remove(f);
-        }
-        if(f1.getPos().equals(gardener.getPos())) {
-            insects.remove(f1);
-        }
-        if(f2.getPos().equals(gardener.getPos())) {
-            insects.remove(f2);
-        }
-        if(f3.getPos().equals(gardener.getPos())) {
-            insects.remove(f3);
-        }
-        if(f4.getPos().equals(gardener.getPos())) {
-            insects.remove(f4);
-        }
-        if(f5.getPos().equals(gardener.getPos())) {
-            insects.remove(f5);
-        }
-        if(f6.getPos().equals(gardener.getPos())) {
-            insects.remove(f6);
-        }
-
         System.out.println(gardener.getPos());
         System.out.println(insects);
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                flowers[i][j] = new Flower();
+                flowers[i][j].setX(i);
+                flowers[i][j].setY(j);
+                if (flowers[i][j].getPos().equals(f.getPos()) || flowers[i][j].getPos().equals(f1.getPos()) || flowers[i][j].getPos().equals(f2.getPos()) || flowers[i][j].getPos().equals(f3.getPos()) || flowers[i][j].getPos().equals(f4.getPos()) || flowers[i][j].getPos().equals(f5.getPos()) || flowers[i][j].getPos().equals(f6.getPos()))   {
+                    f.eatFlower(flowers[i][j], gardener);
+                    f1.eatFlower(flowers[i][j], gardener);
+                    f2.eatFlower(flowers[i][j], gardener);
+                    f3.eatFlower(flowers[i][j], gardener);
+                    f4.eatFlower(flowers[i][j], gardener);
+                    f5.eatFlower(flowers[i][j], gardener);
+                    f6.eatFlower(flowers[i][j], gardener);
+                }
+                System.out.println("Ezen a koordinátán (" + flowers[i][j].getPos() + ") lévő növény élete :" + flowers[i][j].getHealth());
+            }
+        }
 
     /*    System.out.println("A kertész pozíciója : " + gardener.getPos());
         System.out.println("Az 0. rovar pozíciója : " + f.getPos());

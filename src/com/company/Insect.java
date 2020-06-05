@@ -118,8 +118,9 @@ public class Insect extends Creature{
     public void eatFlower (Flower i, Gardener j) {
         int newHealth;
         if (this.getPos().equals(i.getPos()) && !this.getPos().equals(j.getPos())) {
-            newHealth = i.getHealth() - 2;
-            System.out.println(newHealth);
+            int healthLoss = 2;
+            newHealth = i.getHealth() - healthLoss;
+            System.out.println("Ezen a koordinátán (" + i.getPos() + ") lévő növény élete :" + newHealth);
         }
     }
 
