@@ -16,7 +16,6 @@ public class Game {
                 flowers[i][j] = new Flower();
                 flowers[i][j].setX(i);
                 flowers[i][j].setY(j);
-                System.out.println(flowers[i][j].getHealth() + " " + flowers[i][j].getPos());
             }
         }
 
@@ -64,8 +63,8 @@ public class Game {
 
 
 
-        System.out.println(gardener.getPos());
-        System.out.println(insects);
+        System.out.println("A kertész pozíciója : " + gardener.getPos());
+        System.out.println("A rovarok kezdő pozíciója : "  + insects);
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {

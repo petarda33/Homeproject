@@ -120,7 +120,8 @@ public class Insect extends Creature{
         if (this.getPos().equals(i.getPos()) && !this.getPos().equals(j.getPos())) {
             int healthLoss = 2;
             newHealth = i.getHealth() - healthLoss;
-            System.out.println("Ezen a koordinátán (" + i.getPos() + ") lévő növény élete :" + newHealth);
+            i.getHealth() = newHealth;
+            System.out.println("Ezen a koordinátán (" + i.getPos() + ") lévő növény élete :" + i.getHealth());
         }
     }
 
