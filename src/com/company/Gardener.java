@@ -24,34 +24,15 @@ public class Gardener extends Creature {
                 posY = 0;
                 break;
         }
-        super.setX(posX);
-        super.setY(posY);
-    }
-
-    public void setX(int x) {
-        super.setX(x);
-    }
-
-    public void setY(int y) {
-        super.setY(y);
-    }
-
-    public String getPos() {
-        return super.getPos();
+        this.setPos(new Position(posX, posY));
 
     }
 
-    public int getX() {
-        return super.getX();
-    }
 
-    public int getY() {
-        return super.getY();
-    }
 
     public void move() {
-        int posX = getX();
-        int posY = getY();
+        int posX = getPos().getX();
+        int posY = getPos().getY();
         int newX;
         int newY;
 
@@ -89,8 +70,8 @@ public class Gardener extends Creature {
             }
         }
 
-        super.setX(newX);
-        super.setY(newY);
+        getPos().setX(newX);
+        getPos().setY(newY);
     }
 
     public void killInsect(Insect i) {

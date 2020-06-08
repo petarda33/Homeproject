@@ -5,44 +5,15 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Insect extends Creature{
 
-    public int energy = 6;
-    public boolean isAlive = true;
     public boolean canAttack = true;
 
-    public void setX(int x) {
-        super.setX(x);
-    }
-
-    public void setY(int y) {
-        super.setY(y);
-    }
-
-    public String getPos() {
-        return super.getPos();
-    }
-
-    public int getX() {
-        return super.getX();
-    }
-
-    public int getY() {
-        return super.getY();
-    }
-
-    public void die() {
-        this.isAlive = false;
-    }
-
-    public boolean death() {
-        if (energy == 0) {
-           return isAlive = false;
-        }
-        return true;
+    public Insect() {
+        setHealth(6);
     }
 
     public void move() {
-        int posX = getX();
-        int posY = getY();
+        int posX = this.getPos().getX();
+        int posY = this.getPos().getY();
         int newX;
         int newY;
 
@@ -109,8 +80,8 @@ public class Insect extends Creature{
             }
         }
 
-        super.setX(newX);
-        super.setY(newY);
+        this.getPos().setX(newX);
+        this.getPos().setY(newY);
 
 
     }
@@ -120,7 +91,7 @@ public class Insect extends Creature{
         if (this.getPos().equals(i.getPos()) && !this.getPos().equals(j.getPos())) {
             int healthLoss = 2;
             newHealth = i.getHealth() - healthLoss;
-            i.getHealth() = newHealth;
+            i.setHealth(newHealth);
             System.out.println("Ezen a koordinátán (" + i.getPos() + ") lévő növény élete :" + i.getHealth());
         }
     }

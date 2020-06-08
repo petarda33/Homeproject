@@ -1,28 +1,37 @@
 package com.company;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Creature {
-    private int x;
-    private int y;
+public abstract class Creature {
+    private Position pos;
+    private boolean live = true;
+    private int health;
 
-    public int getX() {
-        return x;
+    public boolean isLive() {
+        return live;
     }
 
-    public void setX(int x) {
-        this.x = x;
+    public void setLive(boolean live) {
+        this.live = live;
     }
 
-    public int getY() {
-        return y;
+    public int getHealth() {
+        return health;
     }
 
-    public void setY(int y) {
-        this.y = y;
+    public void setHealth(int health) {
+        this.health = health;
     }
 
-    public String getPos() {
-        String xy = String.valueOf(this.x) + String.valueOf(this.y);
-        return xy;
+    public void die() {
+        this.live = false;
+    }
+
+
+    public Position getPos() {
+        return pos;
+    }
+
+    public void setPos(Position pos) {
+        this.pos = pos;
     }
 }
