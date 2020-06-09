@@ -15,7 +15,7 @@ public class Main {
         System.out.println(f1.getPos()); */
 
        Game game = new Game();
-       game.start();
+       game.round();
 
 
 

@@ -14,6 +14,66 @@ public class Position {
         return false;
     }
 
+    public boolean moveDown() {
+        if (this.y < 7) {
+            this.y++;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean moveLeft() {
+        if (this.x < 7) {
+            this.x++;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean moveRight() {
+        if (this.x > 0) {
+            this.x--;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean moveUpRight() {
+        if (this.y > 0 && x < 7) {
+            this.y--;
+            this.x--;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean moveUpLeft() {
+        if (this.y > 0 && x > 0) {
+            this.y--;
+            this.x++;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean moveDownLeft() {
+        if (this.y < 7 && this.x > 0) {
+            this.y++;
+            this.x++;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean moveDownRight() {
+        if (this.y < 7 && this.x < 7) {
+            this.y--;
+            this.x--;
+            return true;
+        }
+        return false;
+    }
+
     public int getX() {
         return x;
     }

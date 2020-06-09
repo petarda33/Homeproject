@@ -5,8 +5,14 @@ public class Flower extends Creature{
     private String color = "green";
     private int age;
 
-    public Flower () {
-        setHealth(12);
+    public Flower (boolean epicFlower) {
+        if (epicFlower == true) {
+            setHealth(18);
+        } else {
+            setHealth(12);
+        }
+
+
 
     }
 

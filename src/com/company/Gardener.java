@@ -76,5 +76,6 @@ public class Gardener extends Creature {
 
     public void killInsect(Insect i) {
         i.die();
+        System.out.println("A kertész jelenleg ebben a pozícióban van és megölt egy rovart" + i.getPos());
     }
 }

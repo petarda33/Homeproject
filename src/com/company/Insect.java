@@ -1,5 +1,6 @@
 package com.company;
 
+import java.util.Random;
 import java.util.concurrent.Flow;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -17,71 +18,81 @@ public class Insect extends Creature{
         int newX;
         int newY;
 
-        inputloop:
+
+     //   inputloop:
         while (true) {
-            int randomNum = ThreadLocalRandom.current().nextInt(0, 8);
+            Position position = new Position(0,0);
+            int randomNum = new Random().nextInt(8);
             switch (randomNum) {
                 case 1:
-                    if (posX < 7) {
+                    position.moveUp();
+                    /*if (posX < 7) {
                         newX = posX + 1;
                         newY = posY;
                         break inputloop;
-                    }
+                    } */
                     break;
                 case 2:
-                    if (posY < 7) {
+                    position.moveDown();
+                    /*if (posY < 7) {
                         newX = posX;
                         newY = posY + 1;
                         break inputloop;
-                    }
+                    }*/
                     break;
                 case 3:
-                    if (posX > 0) {
+                    position.moveLeft();
+                  /*  if (posX > 0) {
                         newX = posX - 1;
                         newY = posY;
                         break inputloop;
-                    }
+                    }*/
                     break;
                 case 4:
-                    if (posX < 7 && posY < 7) {
+                    position.moveRight();
+                   /* if (posX < 7 && posY < 7) {
                         newX = posX + 1;
                         newY = posY + 1;
                         break inputloop;
-                    }
+                    }*/
                     break;
                 case 5:
-                    if (posX > 0 && posY > 0) {
+                    position.moveUpLeft();
+                   /* if (posX > 0 && posY > 0) {
                         newX = posX - 1;
                         newY = posY - 1;
                         break inputloop;
-                    }
+                    }*/
                     break;
                 case 6 :
-                    if (posX < 7 && posY > 0) {
+                    position.moveUpRight();
+                  /*  if (posX < 7 && posY > 0) {
                         newX = posX + 1;
                         newY = posX - 1;
                         break inputloop;
-                    }
+                    }*/
                     break;
                 case 7 :
-                    if (posX > 0 && posY < 7) {
+                    position.moveDownLeft();
+                   /* if (posX > 0 && posY < 7) {
                         newX = posX - 1;
                         newY = posY + 1;
                         break inputloop;
-                    }
+                    }*/
                     break;
                 default:
-                    if (posY > 0) {
+                    position.moveDownRight();
+                  /*  if (posY > 0) {
                         newX = posX;
                         newY = posY - 1;
                         break inputloop;
-                    }
+                    }*/
                     break;
             }
         }
 
-        this.getPos().setX(newX);
-        this.getPos().setY(newY);
+        //this.getPos().setX(newX);
+        //this.getPos().setY(newY);
 
 
     }
