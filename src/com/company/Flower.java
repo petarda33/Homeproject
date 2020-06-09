@@ -11,9 +11,12 @@ public class Flower extends Creature{
         } else {
             setHealth(12);
         }
+    }
 
-
-
+    public void healthLessThan0 (Flower i) {
+        if (i.getHealth() <= 0) {
+            setHealth(0);
+        }
     }
 
 
@@ -32,6 +35,8 @@ public class Flower extends Creature{
     public void setAge(int age) {
         this.age = age;
     }
+
+
 
 
 

@@ -20,8 +20,7 @@ public class Insect extends Creature{
 
 
      //   inputloop:
-        while (true) {
-            Position position = new Position(0,0);
+            Position position = this.getPos();
             int randomNum = new Random().nextInt(8);
             switch (randomNum) {
                 case 1:
@@ -89,7 +88,7 @@ public class Insect extends Creature{
                     }*/
                     break;
             }
-        }
+
 
         //this.getPos().setX(newX);
         //this.getPos().setY(newY);
@@ -103,11 +102,15 @@ public class Insect extends Creature{
             int healthLoss = 2;
             newHealth = i.getHealth() - healthLoss;
             i.setHealth(newHealth);
-            System.out.println("Ezen a koordinátán (" + i.getPos() + ") lévő növény élete :" + i.getHealth());
+            //System.out.println("Ezen a koordinátán (" + i.getPos() + ") lévő növény élete :" + i.getHealth());
         }
     }
 
-
+    public void killFlower(Flower i) {
+        if (i.getHealth() <= 0) {
+            System.out.println("X");
+        }
+    }
 
 
 }

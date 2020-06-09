@@ -41,7 +41,7 @@ public class Position {
     public boolean moveUpRight() {
         if (this.y > 0 && x < 7) {
             this.y--;
-            this.x--;
+            this.x++;
             return true;
         }
         return false;
@@ -50,7 +50,7 @@ public class Position {
     public boolean moveUpLeft() {
         if (this.y > 0 && x > 0) {
             this.y--;
-            this.x++;
+            this.x--;
             return true;
         }
         return false;
@@ -59,7 +59,7 @@ public class Position {
     public boolean moveDownLeft() {
         if (this.y < 7 && this.x > 0) {
             this.y++;
-            this.x++;
+            this.x--;
             return true;
         }
         return false;
@@ -67,8 +67,8 @@ public class Position {
 
     public boolean moveDownRight() {
         if (this.y < 7 && this.x < 7) {
-            this.y--;
-            this.x--;
+            this.y++;
+            this.x++;
             return true;
         }
         return false;
