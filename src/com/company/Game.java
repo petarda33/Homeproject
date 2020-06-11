@@ -4,7 +4,8 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Game {
-    Flower[][] flowers = new Flower[8][8];
+    //Flower[][] flowers = new Flower[8][8];
+    List<Flower> flowersList = new ArrayList<>();
     List<Insect> insects = new ArrayList<>();
     Gardener gardener = new Gardener();
 
@@ -31,8 +32,9 @@ public class Game {
                         superPos = true;
                     }
                 }
-                flowers[i][j] = new Flower(superPos);
-                flowers[i][j].setPos(new Position(i, j));
+                Flower f = new Flower(superPos);
+                f.setPos(new Position(i, j));
+                flowersList.add(f);
             }
         }
 
@@ -47,90 +49,136 @@ public class Game {
 
     }
 
+    public void start() {
+        while (true) {
+            round();
+        }
+    }
+
     public void round() {
+        endRound();
+        System.out.println("Kertész pozíciója:" + gardener.getPos());
+
+        startGardenerKillInsect();
+        gardenerMove();
+        insectsEat();
+        insectsCantEat();
+        flowerDeath();
+        // printRound();
+        printRound();
 
 
-        System.out.println(gardener.getPos());
-
-        for (int i = 0; i < 500; i++) {
-            System.out.println(i + ". Nap");
-            gardenerMove();
-            startGardenerKillInsect();
-            eatInsects();
-            insectMove();
-            insectRemove();
-            flowerDeath();
-            //insectBorn();
-            printRound();
-            System.out.println("A rovarok száma" + " :" + insects.size());
-            endGame();
-
-
-        }
-
-
-    }
-
-    //kör végi összesités
-    public void printRound() {
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                System.out.print(flowers[i][j].getHealth());
-                for (Insect insect : insects) {
-                    if (insect.getPos().getX() == i && insect.getPos().getY() == j) {
-                        System.out.print(":i");
-                    }
-                }
-                if (gardener.getPos().getX() == i && gardener.getPos().getY() == j) {
-                    System.out.print(":G");
-                }
-                System.out.print("    ");
-            }
-            System.out.println();
-        }
+//
+//        for (int i = 0; i < 500; i++) {
+//            System.out.println(i + ". Nap");
+//            gardenerMove();
+//            startGardenerKillInsect();
+//            eatInsects();
+//            //insectCantEat();
+//            insectMove();
+//            // insectRemove();
+//            // insectDie();
+//            flowerDeath();
+//            // insectBorn();
+//            printRound();
+//            System.out.println("A rovarok száma" + " :" + insects.size());
+//            endGame();
+//
+//
+//        }
 
 
-    }
-
-    //rovar eszik a virágbol ha azonos pozicioban vannak
-    public void eatInsects() {
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                for (Insect insect : insects) {
-                    if (flowers[i][j].getPos().equals(insect.getPos())) {
-                        insect.eatFlower(flowers[i][j], gardener);
-                    }
-                }
-            }
-        }
     }
 
     public void gardenerMove() {
         for (int i = 0; i < 12; i++) {
             gardener.move();
+            Iterator<Insect> insectIterator3 = insects.iterator();
+            while (insectIterator3.hasNext()) {
+                Insect j = insectIterator3.next();
+                if (j.isLive() && gardener.getPos().equals(j.getPos())) {
+                    System.out.println("Rovar elpusztult:" + j.getPos());
+                    gardener.killInsect(j);
+                    insectIterator3.remove();
+                }
 
+            }
         }
     }
 
-    //ha a keetész olyan helyre született ahol volt rovar akkor azt megöli
+    //a kertész uj sarokbol indul és megőli a rovart ha azonos helyre szuletett
     public void startGardenerKillInsect() {
+        int posX = 0;
+        int posY = 0;
+        int randomNum = ThreadLocalRandom.current().nextInt(0, 4);
+        switch (randomNum) {
+            case 1:
+                posX = 0;
+                posY = 7;
+                break;
+            case 2:
+                posX = 7;
+                posY = 7;
+                break;
+            case 3:
+                posX = 7;
+                posY = 0;
+                break;
+            default:
+                posX = 0;
+                posY = 0;
+                break;
+        }
+        gardener.setPos(new Position(posX, posY));
+
         Iterator<Insect> insectIterator = insects.iterator();
         while (insectIterator.hasNext()) {
             Insect i = insectIterator.next();
-            // if(gardener.getPos().getX() == i.getPos().getX() && gardener.getPos().getY() == i.getPos().getY()) {
             if (i.isLive() && gardener.getPos().equals(i.getPos())) {
+                System.out.println("Rovar meghalt: " + i.getPos());
                 gardener.killInsect(i);
+                insectIterator.remove();
+            }
+        }
+
+    }
+
+
+    //rovar eszik a virágbol ha azonos pozicioban vannak
+    public void insectsEat() {
+        for (Insect i : insects) {
+            for (Flower f : flowersList) {
+                if (i.getPos().equals(f.getPos()) && !i.getPos().equals(gardener.getPos()) && f.getHealth() >= 0) {
+                    i.eatFlower(f);
+                }
             }
         }
     }
 
-    //rovarok listábol doglott rovarok eltávolitása
-    public void insectRemove() {
-        Iterator<Insect> insectIterator3 = insects.iterator();
-        while (insectIterator3.hasNext()) {
-            if (insectIterator3.next().isLive() == false) {
-                insectIterator3.remove();
+    //rovar élete csokken, ha olyan mezőn van, ahol nincs virág
+    public void insectsCantEat() {
+
+        Iterator<Insect> insectIterator = insects.iterator();
+        while (insectIterator.hasNext()) {
+            Insect i = insectIterator.next();
+            boolean canteat = true;
+            for (Flower f : flowersList) {
+                if (i.getPos().equals(f.getPos()) && !i.getPos().equals(gardener.getPos()) && f.getHealth() > 0) {
+                    canteat = false;
+                }
             }
+            if (canteat == true){
+                System.out.println("A rovar nem tud enni" + i.getHealth());
+                i.setHealth(Math.max(0, i.getHealth() - 3));
+                System.out.println("A rovar nem tudott enni:" + i.getPos() + i.getHealth());
+                //i.move();
+                if (i.getHealth() <= 0){
+                    System.out.println("A rovar nem tudott enni ezért meghalt" + i.getPos());
+                    i.die();
+                    insectIterator.remove();
+                }
+            }
+            i.move();
         }
     }
 
@@ -143,32 +191,137 @@ public class Game {
         }
     }
 
-    //Virághalál
-    public void flowerDeath() {
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                flowers[i][j].healthLessThan0(flowers[i][j]);
+
+    //rovarok listábol doglott rovarok eltávolitása
+    public void insectRemove() {
+        Iterator<Insect> insectIterator3 = insects.iterator();
+        while (insectIterator3.hasNext()) {
+            Insect i = insectIterator3.next();
+            if (i.getHealth() == 0) {
+                insectIterator3.remove();
             }
         }
     }
 
-   /* public void insectBorn() {
-        for (int i = 0; i < insects.size(); i++) {
-            Insect insect = new Insect();
-            if(insect.isLive() == true);
-            insects.add(insect);
-        }
-    }*/
 
-   public void endGame() {
+    //Virághalál
+    public void flowerDeath() {
+        Iterator<Flower> flowerIterator = flowersList.iterator();
+        while (flowerIterator.hasNext()) {
+            Flower f = flowerIterator.next();
+            if (f.getHealth() <= 0) {
+                flowerIterator.remove();
+            }
+        }
+    }
+
+   public void insectBorn() {
+        for (Insect i : insects){
+            Insect newBorn = new Insect();
+
+
+            // 1. 0-tol 7-ig
+            // 2. jobbra van-e virag (getX + 1);
+            // 2b. jobbra szuletik
+            // 3. jobbra fel van-e virag (getX + 1, getY + 1);
+            // ...
+            // x. ha nincs sehol virag akkor getX, getY-ba szuletik
+            for (int ind = 0; ind < 8; ind++){
+                switch (ind) {
+                case 1:
+                    if (i.getPos().getX())
+                    break;
+                case 2:
+                }
+            }
+            i.getPos().getX + 1;
+            i.getPos().getY + 1;
+                for (Flower f : flowersList){
+                    if()
+                }
+            newBorn.setPos(i.getPos());
+            insects.add(newBorn);
+        }
+    }
+
+    public void endRound() {
+        if (insects.size() == 0) {
+            System.out.println("Elfogytak a rovarok");
+            System.exit(0);
+        }
+        if (flowersList.size() == 0) {
+            System.out.println("Elfogytak a viragok");
+            System.exit(0);
+        }
+//       for (int i = 0; i < 8; i++) {
+//           for (int j = 0; j < 8; j++) {
+//               flowers[i][j]
+//           }
+//       }
+    }
+
+/*
+   public void insectCantEat () {
        for (int i = 0; i < 8; i++) {
            for (int j = 0; j < 8; j++) {
-               if (insects.size() == 0 ) {
-                   System.exit(1);
+               for (Insect insect : insects) {
+                   if (flowers[i][j].getHealth() <= 0 && flowers[i][j].getPos().equals(insect.getPos()) && insect.isLive() == true) {
+                       insect.insectHealthDown(flowers[i][j]);
+                   }
                }
            }
        }
    }
+
+   public void insectDie () {
+       for (Insect insect : insects) {
+           if (insect.getHealth() == 0) {
+               insects.remove(insect);
+           }
+       }
+   }
+
+    public void insectRemove2() {
+        Iterator<Insect> insectIterator3 = insects.iterator();
+        while (insectIterator3.hasNext()) {
+            Insect i = insectIterator3.next();
+            if (i.getHealth() == 0) {
+                insectIterator3.remove();
+            }
+        }
+    }*/
+
+
+    //kör végi összesités
+    public void printRound() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                boolean isNotEmpty = false;
+                for (Insect ins : insects) {
+                    if (ins.getPos().equals(new Position(i, j))) {
+                        System.out.print("i:");
+                        isNotEmpty = true;
+                    }
+                }
+                for (Flower f : flowersList) {
+                    if (f.getPos().equals(new Position(i, j))) {
+                        isNotEmpty = true;
+                        if (gardener.getPos().equals(f.getPos())) {
+                            System.out.print(f.getHealth() + ":g");
+                        } else {
+                            System.out.print(f.getHealth() + "  ");
+                        }
+                    }
+                }
+                if (! isNotEmpty){
+                    System.out.print("0  ");
+                }
+            }
+            System.out.println("");
+        }
+    }
+
+
 }
 
 

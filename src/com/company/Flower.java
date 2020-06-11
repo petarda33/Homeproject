@@ -13,11 +13,13 @@ public class Flower extends Creature{
         }
     }
 
-    public void healthLessThan0 (Flower i) {
-        if (i.getHealth() <= 0) {
+    public void healthLessThan0 () {
+        if (this.getHealth() <= 0) {
             setHealth(0);
         }
     }
+
+
 
 
     public String getColor() {

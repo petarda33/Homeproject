@@ -72,6 +72,7 @@ public class Gardener extends Creature {
 
         getPos().setX(newX);
         getPos().setY(newY);
+        System.out.println("A kertész ide lépett:" + getPos());
     }
 
     public void killInsect(Insect i) {
