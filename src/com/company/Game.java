@@ -56,38 +56,18 @@ public class Game {
     }
 
     public void round() {
-        endRound();
-        System.out.println("Kertész pozíciója:" + gardener.getPos());
 
         startGardenerKillInsect();
+        printRound();
         gardenerMove();
         insectsEat();
         insectsCantEat();
         flowerDeath();
-        // printRound();
+        //insectBorn();
+        System.out.println("A rovarok száma: " + insects.size());
         printRound();
-
-
-//
-//        for (int i = 0; i < 500; i++) {
-//            System.out.println(i + ". Nap");
-//            gardenerMove();
-//            startGardenerKillInsect();
-//            eatInsects();
-//            //insectCantEat();
-//            insectMove();
-//            // insectRemove();
-//            // insectDie();
-//            flowerDeath();
-//            // insectBorn();
-//            printRound();
-//            System.out.println("A rovarok száma" + " :" + insects.size());
-//            endGame();
-//
-//
-//        }
-
-
+        endRound();
+        System.out.println("-------------------------------------------------------");
     }
 
     public void gardenerMove() {
@@ -110,7 +90,7 @@ public class Game {
     public void startGardenerKillInsect() {
         int posX = 0;
         int posY = 0;
-        int randomNum = ThreadLocalRandom.current().nextInt(0, 4);
+        int randomNum = new Random().nextInt(4);
         switch (randomNum) {
             case 1:
                 posX = 0;
@@ -130,6 +110,7 @@ public class Game {
                 break;
         }
         gardener.setPos(new Position(posX, posY));
+        System.out.println("Kertész pozíciója kezdő pozíciója:" + gardener.getPos());
 
         Iterator<Insect> insectIterator = insects.iterator();
         while (insectIterator.hasNext()) {
@@ -167,12 +148,12 @@ public class Game {
                     canteat = false;
                 }
             }
-            if (canteat == true){
+            if (canteat == true) {
                 System.out.println("A rovar nem tud enni" + i.getHealth());
                 i.setHealth(Math.max(0, i.getHealth() - 3));
                 System.out.println("A rovar nem tudott enni:" + i.getPos() + i.getHealth());
-                //i.move();
-                if (i.getHealth() <= 0){
+                i.move();
+                if (i.getHealth() <= 0) {
                     System.out.println("A rovar nem tudott enni ezért meghalt" + i.getPos());
                     i.die();
                     insectIterator.remove();
@@ -214,11 +195,15 @@ public class Game {
             }
         }
     }
-
-   public void insectBorn() {
-        for (Insect i : insects){
+   /* public void insectBorn() {
+        for (Insect i : insects) {
             Insect newBorn = new Insect();
-
+            if (i.isLive() == true) {
+                newBorn.setPos(i.getPos());
+                insects.add(newBorn);
+            }
+        }
+    }
 
             // 1. 0-tol 7-ig
             // 2. jobbra van-e virag (getX + 1);
@@ -226,23 +211,43 @@ public class Game {
             // 3. jobbra fel van-e virag (getX + 1, getY + 1);
             // ...
             // x. ha nincs sehol virag akkor getX, getY-ba szuletik
-            for (int ind = 0; ind < 8; ind++){
+            for (int ind = 0; ind < 8; ind++) {
                 switch (ind) {
-                case 1:
-                    if (i.getPos().getX())
-                    break;
-                case 2:
+                    case 1:
+                        i.getPos().getX() + 1;
+                        break;
+                    case 2:
+                        i.getPos().getX() - 1;
+                        break;
+                    case 3:
+                        pos.moveLeft();
+                        break;
+                    case 4:
+                        pos.moveRight();
+                        break;
+                    case 5:
+                        pos.moveUpLeft();
+                        break;
+                    case 6:
+                        pos.moveUpRight();
+                        break;
+                    case 7:
+                        pos.moveDownLeft();
+                        break;
+                    default :
+                        pos.moveDownRight();
+                        break;
                 }
             }
             i.getPos().getX + 1;
             i.getPos().getY + 1;
-                for (Flower f : flowersList){
-                    if()
-                }
+            for (Flower f : flowersList) {
+
+            }
             newBorn.setPos(i.getPos());
             insects.add(newBorn);
         }
-    }
+    } */
 
     public void endRound() {
         if (insects.size() == 0) {
@@ -313,7 +318,7 @@ public class Game {
                         }
                     }
                 }
-                if (! isNotEmpty){
+                if (!isNotEmpty) {
                     System.out.print("0  ");
                 }
             }
